@@ -19,7 +19,12 @@
 <style type="text/css">
   html { height: 100% }
   body { height: 100%; margin: 0; padding: 0 }
-  #map-canvas { height: 500px; width: 500px; border: 1px;}
+  #top{ height: 42px; width: 1002px; border: 1px;}
+  #logon{ height: 20px; width: 1000px; border: 1px;}
+  #latlon{ height: 20px; width: 1000px; border: 1px;}
+  #content{ height: 502px; width: 1002px; border: 1px;}
+  #map-canvas { height: 500px; width: 500px; border: 1px; float: left;}
+  #search-results { height: 500px; width: 500px; border: 1px; float: right;}
 </style>
 
 <!--SCRIPTS-->
@@ -28,24 +33,31 @@
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1Tnbxn7Ii4I2e4Pb-sKC2-XDDKGCwDZY&sensor=true"></script>
 <script type="text/javascript" src="script/scripts.js"></script>
 <script type="text/javascript">
-  
   $('document').ready(function() { 
-    //Google maps magic
-    google.maps.event.addDomListener(window, 'load', initializeGMap);
+    if (readCookie('foursquare_token') == null 
+      || readCookie('latitude')  == null 
+      || readCookie('longitude')  == null ) {
+        getLastLocationCoordinates();
+    }
+    showFSUser();
+    showLastLoginVenue();
+    setLocation(readCookie('latitude'), readCookie('longitude'));
   });
 </script>
 </head>
 <body>
 
-<div id="logon">
-<a href="https://rajapinta.com/fse/script/4SQcallback.php"><img src="img/connect-blue.png"></a>
+<div id="top">
+    <div id="logon"></div>
+    <div id="latlon"></div>
 </div>
-<div id="latlon"></div>
-<div id="map-canvas"></div>
-<div id="names"></div>
-
-
-
-
+<div id="content">
+    <div id="map-canvas"></div>
+    <div id="search-results"></div>
+    <div id="chat-entry">
+        Speak your mind:<input type="text" id="chatentrytext" name="chatentrytext"/>
+        <button name="sendChatText" id="sendChatText" type="button">send</button>
+    </div>
+</div>
 </body>
 </html>

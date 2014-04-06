@@ -1,0 +1,21 @@
+<?php
+    $mysqli = new mysqli("188.121.44.166", "fseDB", "FSEjfGF887!", "fseDB");
+    $venueId = $_GET["id"];
+    $result = $mysqli->query("SELECT timestamp,text FROM chats_for_venue WHERE venueid = ".$venueId." ORDER BY timestamp DESC LIMIT 50");
+
+    $resultArray = array[];
+    if ($result) {
+        /* fetch associative array */
+        while ($row = $result->fetch_assoc()) {
+            resultArray[$row["timestamp"]] = $row["text"];
+        }
+        /* free result set */
+        $result->free();
+        /* close connection */
+        $mysqli->close();
+
+    }
+
+    header('Content-Type: application/json');
+    echo json_encode($resultArray);    
+?>
